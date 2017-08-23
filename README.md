@@ -11,7 +11,8 @@ A Qlik Sense sampler application demonstrating multiple techniques to support yo
 
 ### Troubleshooting 
 Here is where I will put common problems that people have encountered. If you do not see your problem, please raise an [Issue](https://github.com/newmans99/Qlik-Multilingual-Sampler/issues) and I will attempt to respond as quickly as I can.
-..* None known at this time.
+
+* None known at this time.
 
 ## Enhancements
 There are a number of enhancements that I would like to make to this application, please feel free to fork and submit a merge request for any enhancements to this project. For a list requested enhancements, please see [Issue](https://github.com/newmans99/Qlik-Multilingual-Sampler/issues).
