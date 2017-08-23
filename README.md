@@ -1,5 +1,5 @@
 # Qlik-Multilingual-Sampler
-A Qlik Sense sampler application demonstrating multiple techniques to support your multilingual, multi-tenant, and multi-departmental string requirements.
+A Qlik Sense sampler application demonstrating multiple techniques to support your multilingual, multitenant, and multi-departmental string requirements.
 
 **NOTE**: This sampler application requires Qlik Sense Sept/2017 release. The Technical Preview is currently available for existing partners and customers here: [Qlik Communities: Qlik Sense September 2017 Technical Preview](https://community.qlik.com/blogs/technicalbulletin/2017/08/22/qlik-sense-september-2017-technical-preview-is-now-available)
 
