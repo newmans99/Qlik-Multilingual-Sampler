@@ -1,0 +1,33 @@
+//Extra ; required for Must_Include to work in Technical Preview, should be able to remove in production release.
+;
+
+[Languages]:
+LOAD
+    language,
+    languageString
+FROM [lib://MLRoot/data\OrderData.xlsx]
+(ooxml, embedded labels, table is Language);
+
+
+
+//Use the Qlik Language "Col" variable function to replace a field reference with the appropriate column representing the user's preferred language.
+//   SYNTAX:		=$(vQlikLangCol('ColumnName'))
+//   Where ColumnName is the column that has a language suffix available, such as EN, FR, etc...
+//
+//   RESULT:		A column reference with the language suffix appended to it to be used in an expression.
+//
+//   EXAMPLE USE: 	=$(vQlikLangCol('Company_'))
+//
+LET vQlikLangCol = '[$' & '(=trim($' & '1))$' & '(=upper(FirstSortedValue(DISTINCT language,LangSortOrder)))]';
+
+
+//Use the QLik Language "Row" variable function to reduce the data set to the appropriate language rows.
+//   SYNTAX:		=$(vQlikLangRow('ColumnName'))
+//   Where ColumnName is the column that has a ColumName.language field available, such as en, fr, etc...
+//
+//   RESULT:		An expression that reduces the ColumnName to those rows representing the user's preferred language.
+//   NOTE:			Since "if" returns null() values, you need to suppress nulls on any visualization column that uses this field.
+//
+//   EXAMPLE USE: =$(vQlikLangRow('ColumnName'))
+//
+LET vQlikLangRow = 'if([$' & '(=trim($' & '1)).language]='&chr(39)&'$'&'(=lower(FirstSortedValue(DISTINCT language,LangSortOrder)))'&chr(39)&',[$' & '(=trim($' & '1))])';

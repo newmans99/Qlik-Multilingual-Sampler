@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"Steve Newman",
+			"John Trigg"	
+			],
+		"last-updated": "2017-08-14",
+		"locale": "en"
+	},
+	"Company":	"Company",
+	"Date":	"Date",
+	"Extended Price":	"Extended Price",
+	"Industry":	"Industry",
+	"Language":	"Language",
+	"Order Number":	"Order #",
+	"Order Details":	"Order Details",
+	"Product":	"Product",
+	"Quantity":	"Quantity",
+	"Sector":	"Sector",
+	"Total Orders":	"Total Orders",
+	"Unit Price":	"Unit Price",
+	"Select your preferred language...": "Select your preferred language...",
+	"themeRGB":"RGB(80,118,166)"
+}

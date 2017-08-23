@@ -1,0 +1,73 @@
+//Extra ; required for Must_Include to work in Technical Preview, should be able to remove in production release.
+;
+
+//Add your own security rules here:
+
+[CustomSectionAccess]:
+NoConcatenate
+LOAD * inline [
+ACCESS, USERID, GROUP, LANGUAGE_REDUCTION, REDUCTION, OMIT 
+USER,,LANGUAGE_DEVELOPER,*,,
+USER,INTERNAL\SA_SCHEDULER,,,,
+
+];
+
+//Cycle through the language table three times, once for language, REGION, and Variant. 
+//This creates a fall back heirachy that starts with Variant, that falls back to REGION that falls back to the language.
+FOR vQlikLangIter = 1 to 3
+  LET vQlikLangField = pick($(vQlikLangIter),'language','REGION','Variant');
+
+  LOAD 
+    'USER'									as ACCESS,
+    '*'										as USERID,
+    
+    trim([language] & if(len([REGION]) > 1,'-'&[REGION],'') & if(len([Variant]) > 1,'-'&[Variant],''))
+    										as GROUP,
+                                            
+    trim([language] & if($(vQlikLangIter) > 1,'-'&[REGION],'') & if($(vQlikLangIter) > 2,'-'&[Variant],''))
+    										as LANGUAGE_REDUCTION,
+    ''										as REDUCTION,
+    ''										as OMIT
+  RESIDENT [QlikLanguage]
+  WHERE $(vQlikLangField) <> null() and $(vQlikLangField) <> '';
+
+NEXT vQlikLangIter
+
+//Load default language for all groups, this ensures that the default language strings are available to all users.
+LOAD 
+    'USER'									as ACCESS,
+    '*'										as USERID,
+    
+    if(len(language)>0,[language]& if(len(REGION)>0,'-'&[REGION]& if(len(Variant)>0,'-'&[Variant],''),''),'')
+    										as GROUP,
+	'$(vQlikLangDefaultLang)'				as LANGUAGE_REDUCTION,
+    ''										as REDUCTION,
+    ''										as OMIT
+  RESIDENT [QlikLanguage];
+
+
+//Apply Section Access:
+//NOTE: For testing purposes, uncomment the Star/[Section]: lines and comment out the "Section Access;" and "Section Application;" lines
+
+Star is *;
+[SECTION]:
+
+//Section Access;
+
+ NoConcatenate
+ LOAD DISTINCT
+ 	upper(ACCESS) as ACCESS, 
+    upper(USERID) as USERID, 
+    upper(GROUP) as GROUP, 
+    upper(LANGUAGE_REDUCTION) as LANGUAGE_REDUCTION, 
+    upper(REDUCTION) as REDUCTION, 
+    upper(OMIT) as OMIT 
+ RESIDENT [CustomSectionAccess]
+ ;
+
+//Section Application;
+
+DROP TABLE [CustomSectionAccess];
+
+//Cleanup unnecessary variables
+LET vQlikLangIter = null(); LET vQlikLangField = null();

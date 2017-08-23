@@ -1,0 +1,157 @@
+//NOTE: This script will typically be changed based on the type of UI String storage you leverage.
+//      Currently, this example supports Microsoft Resource files (resx), json named pairs (js,json), or a database table
+//      Choose one, and only one, of the Examples below and comment/remove the others.
+//
+//      The example below leverags the IETF BCP47 standard (ref: https://tools.ietf.org/html/bcp47)
+//      The format of the resource file or the BCP47 column (db) should be: language(-region(-variant1)) - where variant1 can be tenant/dept string specifications.
+//      As specified in BCP47, this allows for "fallback" from variant1 to region, and finally to language.
+
+//Extra ; required for Must_Include to work in Technical Preview, should be able to remove in production release.
+;
+
+//EXAMPLE: JSON Name Value Pair files
+ LET vQlikLangConnectionName = 'MLRoot/strings/lang'; 
+ LET vQlikLangFilePrefix = 'MLjson_';  
+ LET vQlikLangFileExtension = 'json';
+ LET vQlikLangFileEncoding = 'utf8';
+
+//EXAMPLE: Microsoft RESX files
+// LET vQlikLangConnectionName = 'MLRoot/strings/lang';
+// LET vQlikLangFilePrefix = 'MLresx_';
+// LET vQlikLangFileExtension = 'resx';
+
+//EXAMPLE: Database table
+// LET vQlikLangConnectionName = 'MLRoot/data\OrderData.xlsx';
+// LET vQlikLangFileExtension = 'UI_Strings';
+
+LET vQlikLangDefaultIndicator = 'default';
+
+
+//NOTE: The following variable is defined here and are retained for the Application Developer to use within the Qlik Application
+//      The variables above should be removed before the script ends.
+LET vQlikLangDefaultLang = 'en';
+
+//Use the Qlik Language "String" variable function to replace a single LangId with the appropriate LangValue.
+//   SYNTAX:		=$(vQlikLangString('LangId'))
+//   Where LangId is the Id of the string you want to replace. Make sure that there are no spaces between the quotes and variables.
+//
+//   RESULT:		A single text string in the user's preferred language.
+//
+//   EXAMPLE USE: 	=$(vQlikLangString('Total Orders'))
+//
+LET vQlikLangString = 'FirstSortedValue({<[LangId]={$' & '1}>}DISTINCT [LangValue],[LangSortOrder])';
+
+
+
+
+
+//This varible rarely needs to be changed, as long as the language identifier in the resource files/db follows the BCP47 standard
+LET vQlikLangFileDelimiter = '-';
+
+
+//NOTE:
+//  * BCP47 Script SubTags are not supported in the script below. If these are present in your files/db, then strip them out in the script below.
+
+IF upper(left('$(vQlikLangFileExtension)',2)) = 'JS' THEN
+    // Should return a table called [QlikLangRAW] with three columns LangId, LangValue, and BCP47
+	// Remove/Drop all extra tables that are not necessary for the developer.
+    [QlikLangJSONRAW]:
+    LOAD
+        @1 as JSON_Row,
+        replace(subfield(FileName(),'.',1),'$(vQlikLangFilePrefix)','') as BCP47
+    FROM [lib://$(vQlikLangConnectionName)/$(vQlikLangFilePrefix)*.$(vQlikLangFileExtension)]
+    (txt, $(vQlikLangFileEncoding), no labels, delimiter is ',', msq);
+    
+    [QlikLangRAW]:
+    NoConcatenate
+    LOAD 
+      mid(trim(subfield(JSON_Row,':',1)),1,len(trim(subfield(JSON_Row,':',1)))-1)	as LangId,
+      mid(trim(subfield(JSON_Row,':',2)),2)                     					as LangValue,
+      BCP47																			as BCP47
+    RESIDENT [QlikLangJSONRAW];
+    
+    DROP TABLE [QlikLangJSONRAW];
+  
+ELSEIF upper(left('$(vQlikLangFileExtension)',2)) = 'RE' THEN
+    // Should return a table called [QlikLangRAW] with three columns LangId, LangValue, and BCP47
+	// Remove/Drop all extra tables that are not necessary for the developer.
+    [QlikLangRESXRAW]:
+    LOAD
+      name,
+      value,
+      replace(subfield(FileName(),'.',1),'$(vQlikLangFilePrefix)','') as BCP47
+	FROM [lib://$(vQlikLangConnectionName)/$(vQlikLangFilePrefix)*.$(vQlikLangFileExtension)]
+	(XmlSimple, table is [root/data]);
+
+
+    [QlikLangRAW]:
+    NoConcatenate
+    LOAD
+      name		as LangId,
+      value		as LangValue,
+      BCP47		as BCP47
+    RESIDENT [QlikLangRESXRAW];
+    
+    DROP TABLE [QlikLangRESXRAW];
+
+ELSE  // Assumes to connect to a dabase if RESX/JSON file types are not detected
+	  // Should return a table called [QlikLangRAW] with three columns LangId, LangValue, and BCP47
+	  // Remove/Drop all extra tables that are not necessary for the developer.
+    [QlikLangDBRAW]:
+    LOAD
+      StringID,
+      StringValue,
+      BCP47
+	FROM [lib://$(vQlikLangConnectionName)]
+	(ooxml, embedded labels, table is $(vQlikLangFileExtension));
+
+    [QlikLangRAW]:
+    NoConcatenate
+    LOAD 
+      StringID 		as LangId,
+      StringValue 	as LangValue,
+      BCP47 		as BCP47
+    RESIDENT [QlikLangDBRAW];
+    
+    DROP TABLE [QlikLangDBRAW];
+
+ENDIF
+
+//Modifies the returned language string RAW rows to include a sort order, and reduction column (group security).
+[QlikLangTemp]:
+NoConcatenate
+LOAD *,
+  upper(trim([language] & if(len([REGION]) > 1,'-'&[REGION],'') & if(len([Variant]) > 1,'-'&[Variant],'')))
+                                                                    as LANGUAGE_REDUCTION,
+    ;
+LOAD 
+    LangId,
+    LangValue,
+    if(language='$(vQlikLangDefaultIndicator)','$(vQlikLangDefaultLang)',language)  
+                                                                    as language,
+    REGION, 
+    Variant,
+    1*if(language='$(vQlikLangDefaultIndicator)',100,LangSortOrder) as LangSortOrder
+    ;    
+LOAD
+    LangId,
+    Text(LangValue)													as LangValue,
+    lower(subfield(BCP47,'$(vQlikLangFileDelimiter)',1))            as language,
+    upper(subfield(BCP47,'$(vQlikLangFileDelimiter)',2))            as REGION,
+    capitalize(subfield(BCP47,'$(vQlikLangFileDelimiter)',3))       as Variant,
+    100-10*(SubStringCount(BCP47, '$(vQlikLangFileDelimiter)')+1)   as LangSortOrder
+RESIDENT [QlikLangRAW]
+WHERE LangValue <> null() and LangValue <> ''
+;
+
+//Need to sort (in ASC) order to ensure that the correct value is picked up first.
+[QlikLanguage]:
+NoConcatenate
+LOAD DISTINCT *
+RESIDENT [QlikLangTemp]
+ORDER BY LangSortOrder ASC;
+
+DROP TABLE [QlikLangRAW],[QlikLangTemp];
+
+//Cleanup unnecessary variables
+LET vQlikLangConnectionName = null(); LET vQlikLangFilePrefix = null(); LET vQlikLangFileExtension = null(); LET vQlikLangFileDelimiter = null(); LET vQlikLangFileEncoding = null(); LET vQlikLangDefaultIndicator = null();
