@@ -6,26 +6,26 @@
 [CustomSectionAccess]:
 NoConcatenate
 LOAD * inline [
-ACCESS, USERID, GROUP, LANGUAGE_REDUCTION, REDUCTION, OMIT 
+ACCESS, USERID, GROUP, LANGUAGE_REDUCTION, REDUCTION, OMIT
 USER,,LANGUAGE_DEVELOPER,*,,
 USER,INTERNAL\SA_SCHEDULER,,,,
 
 ];
 
-//Cycle through the language table three times, once for language, REGION, and Variant. 
+//Cycle through the language table three times, once for language, REGION, and Variant.
 //This creates a fall back heirachy that starts with Variant, that falls back to REGION that falls back to the language.
 FOR vQlikLangIter = 1 to 3
   LET vQlikLangField = pick($(vQlikLangIter),'language','REGION','Variant');
 
-  LOAD 
-    'USER'									as ACCESS,
+  LOAD
+    'USER'								as ACCESS,
     '*'										as USERID,
-    
+
     trim([language] & if(len([REGION]) > 1,'-'&[REGION],'') & if(len([Variant]) > 1,'-'&[Variant],''))
-    										as GROUP,
-                                            
+    										  as GROUP,
+
     trim([language] & if($(vQlikLangIter) > 1,'-'&[REGION],'') & if($(vQlikLangIter) > 2,'-'&[Variant],''))
-    										as LANGUAGE_REDUCTION,
+    										  as LANGUAGE_REDUCTION,
     ''										as REDUCTION,
     ''										as OMIT
   RESIDENT [QlikLanguage]
@@ -34,15 +34,15 @@ FOR vQlikLangIter = 1 to 3
 NEXT vQlikLangIter
 
 //Load default language for all groups, this ensures that the default language strings are available to all users.
-LOAD 
-    'USER'									as ACCESS,
-    '*'										as USERID,
-    
+LOAD
+    'USER'								  as ACCESS,
+    '*'										 as USERID,
+
     if(len(language)>0,[language]& if(len(REGION)>0,'-'&[REGION]& if(len(Variant)>0,'-'&[Variant],''),''),'')
-    										as GROUP,
-	'$(vQlikLangDefaultLang)'				as LANGUAGE_REDUCTION,
-    ''										as REDUCTION,
-    ''										as OMIT
+    										    as GROUP,
+	'$(vQlikLangDefaultLang)'	as LANGUAGE_REDUCTION,
+    ''										  as REDUCTION,
+    ''										  as OMIT
   RESIDENT [QlikLanguage];
 
 
@@ -56,12 +56,12 @@ Star is *;
 
  NoConcatenate
  LOAD DISTINCT
- 	upper(ACCESS) as ACCESS, 
-    upper(USERID) as USERID, 
-    upper(GROUP) as GROUP, 
-    upper(LANGUAGE_REDUCTION) as LANGUAGE_REDUCTION, 
-    upper(REDUCTION) as REDUCTION, 
-    upper(OMIT) as OMIT 
+ 	upper(ACCESS) as ACCESS,
+    upper(USERID) as USERID,
+    upper(GROUP) as GROUP,
+    upper(LANGUAGE_REDUCTION) as LANGUAGE_REDUCTION,
+    upper(REDUCTION) as REDUCTION,
+    upper(OMIT) as OMIT
  RESIDENT [CustomSectionAccess]
  ;
 
