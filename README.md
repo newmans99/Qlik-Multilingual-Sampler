@@ -15,21 +15,21 @@ These steps will get you started quickly to explore the Multilingual Sampler app
 
 #### Steps
 <ol>
-<li>Download the [Sampler Repository ZIP file](./archive/master.zip)
+<li>Download the [Sampler Repository ZIP file](https://github.com/newmans99/Qlik-Multilingual-Sampler/archive/master.zip)
 <li>Unzip the contents to a directory accessible to QMC or Desktop.
 <li>Import Qlik Sense application & widget from zip file
 <br>For Qlik Sense Server:
   <ol>
-    <li>From QMC: Apps -> Import - "**Your_Unzip_Path\app\Multilingual & Multi Tenant-Department Sampler.qvf**"
-    <li>From QMC: Extensions -> Import - "**Your_Unzip_Path\app\LanguageHelperWidgets.zip**"    
+    <li>From QMC: Apps -> Import - "Your_Unzip_Path\app\Multilingual & Multi Tenant-Department Sampler.qvf"
+    <li>From QMC: Extensions -> Import - "Your_Unzip_Path\app\LanguageHelperWidgets.zip"    
   </ol>
 <br>For Qlik Sense Desktop
   <ol>
   <li>(Coming soon)
   </ol>
   <br>
-<li>Open the "**Multilingual & Multi Tenant-Department Sampler**" application from "Hub -> My Work".
-<li>From the Application Overview: Open the "**Introduction**" Story to explore and learn about the application.
+<li>Open the **"Multilingual & Multi Tenant-Department Sampler"** application from "Hub -> My Work".
+<li>From the Application Overview: Open the **"Introduction"** Story to explore and learn about the application.
 </ol>
 
 ### <a name="moderate"></a>Implementation: Moderate - Simple + Updating Strings
@@ -67,9 +67,9 @@ These steps build on the previous "Moderate" steps to enable the administer to t
 
 
 ### Troubleshooting
-Common problems and resolutions that others have encountered. If you do not see your problem, please raise an [Issue](./issues) and I will attempt to respond as quickly as I can.
+Common problems and resolutions that others have encountered. If you do not see your problem, please raise an [Issue](https://github.com/newmans99/Qlik-Multilingual-Sampler/issues) and I will attempt to respond as quickly as I can.
 
 * None known at this time.
 
 ## Enhancements
-There are a number of enhancements that I would like to make to this application, please feel free to fork and submit a merge request for any enhancements to this project. For a list requested enhancements, please see [Issue](./issues).
+There are a number of enhancements that I would like to make to this application, please feel free to fork and submit a merge request for any enhancements to this project. For a list requested enhancements, please see [Issue](https://github.com/newmans99/Qlik-Multilingual-Sampler/issues).
