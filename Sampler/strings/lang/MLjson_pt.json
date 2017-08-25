@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Steve Newman",
+			"John Trigg",
+			"Eduardo Souza"	
+			],
+		"last-updated": "2017-08-25",
+		"locale": "pt"
+	},
+	"Company":	"Empresa",
+	"Date":	"Data",
+	"Extended Price":	"Preço Estendido",
+	"Industry":	"Industria",
+	"Language":	"Idioma",
+	"Order Number":	"Nº Pedido",
+	"Order Details":	"Detalhe do Pedido",
+	"Product":	"Produto",
+	"Quantity":	"Quantidade",
+	"Sector":	"Setor",
+	"Total Orders":	"Total de Pedidos",
+	"Unit Price":	"Preço Unitário",
+	"Select your preferred language...": "Selecione seu idíoma de preferência...",
+	"themeRGB":"RGB(48,125,48)"
+}
