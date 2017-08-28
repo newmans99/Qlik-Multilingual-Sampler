@@ -9,25 +9,9 @@
 //Extra ; required for Must_Include to work in Technical Preview, should be able to remove in production release.
 ;
 
-//EXAMPLE: JSON Name Value Pair files
- LET vQlikLangConnectionName = 'MLRoot/strings/lang'; 
- LET vQlikLangFilePrefix = 'MLjson_';  
- LET vQlikLangFileExtension = 'json';
- LET vQlikLangFileEncoding = 'utf8';
-
-//EXAMPLE: Microsoft RESX files
-// LET vQlikLangConnectionName = 'MLRoot/strings/lang';
-// LET vQlikLangFilePrefix = 'MLresx_';
-// LET vQlikLangFileExtension = 'resx';
-
-//EXAMPLE: Database table
-// LET vQlikLangConnectionName = 'MLRoot/data\OrderData.xlsx';
-// LET vQlikLangFileExtension = 'UI_Strings';
-
 LET vQlikLangDefaultIndicator = 'default';
 
-
-//NOTE: The following variable is defined here and are retained for the Application Developer to use within the Qlik Application
+//NOTE: The following variable is defined here and retained for the Application Developer to use within the Qlik Application
 //      The variables above should be removed before the script ends.
 LET vQlikLangDefaultLang = 'en';
 
@@ -42,18 +26,21 @@ LET vQlikLangDefaultLang = 'en';
 LET vQlikLangString = 'FirstSortedValue({<[LangId]={$' & '1}>}DISTINCT [LangValue],[LangSortOrder])';
 
 
-
-
-
 //This varible rarely needs to be changed, as long as the language identifier in the resource files/db follows the BCP47 standard
-LET vQlikLangFileDelimiter = '-';
+LET vQlikLangBCP47Delimiter = '-';
 
 
 //NOTE:
 //  * BCP47 Script SubTags are not supported in the script below. If these are present in your files/db, then strip them out in the script below.
 
+//EXAMPLE: JSON Name Value Pair files
 IF upper(left('$(vQlikLangFileExtension)',2)) = 'JS' THEN
-    // Should return a table called [QlikLangRAW] with three columns LangId, LangValue, and BCP47
+
+  LET vQlikLangConnectionName = 'MLRoot/strings/lang';
+  LET vQlikLangFilePrefix = 'MLjson_';
+  LET vQlikLangFileEncoding = 'utf8';
+
+  // Should return a table called [QlikLangRAW] with three columns LangId, LangValue, and BCP47
 	// Remove/Drop all extra tables that are not necessary for the developer.
     [QlikLangJSONRAW]:
     LOAD
@@ -61,21 +48,29 @@ IF upper(left('$(vQlikLangFileExtension)',2)) = 'JS' THEN
         replace(subfield(FileName(),'.',1),'$(vQlikLangFilePrefix)','') as BCP47
     FROM [lib://$(vQlikLangConnectionName)/$(vQlikLangFilePrefix)*.$(vQlikLangFileExtension)]
     (txt, $(vQlikLangFileEncoding), no labels, delimiter is ',', msq);
-    
+
     [QlikLangRAW]:
     NoConcatenate
-    LOAD 
+    LOAD
       mid(trim(subfield(JSON_Row,':',1)),1,len(trim(subfield(JSON_Row,':',1)))-1)	as LangId,
       mid(trim(subfield(JSON_Row,':',2)),2)                     					as LangValue,
       BCP47																			as BCP47
     RESIDENT [QlikLangJSONRAW];
-    
+
     DROP TABLE [QlikLangJSONRAW];
-  
+
+    //Cleanup unnecessary variables
+    LET vQlikLangConnectionName = null(); LET vQlikLangFilePrefix = null(); LET vQlikLangFileExtension = null(); LET vQlikLangFileEncoding = null();
+
+//EXAMPLE: Microsoft RESX files
 ELSEIF upper(left('$(vQlikLangFileExtension)',2)) = 'RE' THEN
-    // Should return a table called [QlikLangRAW] with three columns LangId, LangValue, and BCP47
-	// Remove/Drop all extra tables that are not necessary for the developer.
-    [QlikLangRESXRAW]:
+
+  LET vQlikLangConnectionName = 'MLRoot/strings/lang';
+  LET vQlikLangFilePrefix = 'MLresx_';
+
+  // Should return a table called [QlikLangRAW] with three columns LangId, LangValue, and BCP47
+  // Remove/Drop all extra tables that are not necessary for the developer.
+	[QlikLangRESXRAW]:
     LOAD
       name,
       value,
@@ -91,10 +86,17 @@ ELSEIF upper(left('$(vQlikLangFileExtension)',2)) = 'RE' THEN
       value		as LangValue,
       BCP47		as BCP47
     RESIDENT [QlikLangRESXRAW];
-    
+
     DROP TABLE [QlikLangRESXRAW];
 
+    //Cleanup unnecessary variables
+    LET vQlikLangConnectionName = null(); LET vQlikLangFilePrefix = null(); LET vQlikLangFileExtension = null();
+
+//EXAMPLE: Database table
 ELSE  // Assumes to connect to a dabase if RESX/JSON file types are not detected
+  LET vQlikLangConnectionName = 'MLRoot/data\OrderData.xlsx';
+  LET vQlikLangFileExtension = 'UI_Strings';
+
 	  // Should return a table called [QlikLangRAW] with three columns LangId, LangValue, and BCP47
 	  // Remove/Drop all extra tables that are not necessary for the developer.
     [QlikLangDBRAW]:
@@ -107,13 +109,16 @@ ELSE  // Assumes to connect to a dabase if RESX/JSON file types are not detected
 
     [QlikLangRAW]:
     NoConcatenate
-    LOAD 
+    LOAD
       StringID 		as LangId,
       StringValue 	as LangValue,
       BCP47 		as BCP47
     RESIDENT [QlikLangDBRAW];
-    
+
     DROP TABLE [QlikLangDBRAW];
+
+    //Cleanup unnecessary variables
+    LET vQlikLangConnectionName = null(); LET vQlikLangFileExtension = null();
 
 ENDIF
 
@@ -124,22 +129,22 @@ LOAD *,
   upper(trim([language] & if(len([REGION]) > 1,'-'&[REGION],'') & if(len([Variant]) > 1,'-'&[Variant],'')))
                                                                     as LANGUAGE_REDUCTION,
     ;
-LOAD 
+LOAD
     LangId,
     LangValue,
-    if(language='$(vQlikLangDefaultIndicator)','$(vQlikLangDefaultLang)',language)  
+    if(language='$(vQlikLangDefaultIndicator)','$(vQlikLangDefaultLang)',language)
                                                                     as language,
-    REGION, 
+    REGION,
     Variant,
     1*if(language='$(vQlikLangDefaultIndicator)',100,LangSortOrder) as LangSortOrder
-    ;    
+    ;
 LOAD
     LangId,
     Text(LangValue)													as LangValue,
-    lower(subfield(BCP47,'$(vQlikLangFileDelimiter)',1))            as language,
-    upper(subfield(BCP47,'$(vQlikLangFileDelimiter)',2))            as REGION,
-    capitalize(subfield(BCP47,'$(vQlikLangFileDelimiter)',3))       as Variant,
-    100-10*(SubStringCount(BCP47, '$(vQlikLangFileDelimiter)')+1)   as LangSortOrder
+    lower(subfield(BCP47,'$(vQlikLangBCP47Delimiter)',1))            as language,
+    upper(subfield(BCP47,'$(vQlikLangBCP47Delimiter)',2))            as REGION,
+    capitalize(subfield(BCP47,'$(vQlikLangBCP47Delimiter)',3))       as Variant,
+    100-10*(SubStringCount(BCP47, '$(vQlikLangBCP47Delimiter)')+1)   as LangSortOrder
 RESIDENT [QlikLangRAW]
 WHERE LangValue <> null() and LangValue <> ''
 ;
@@ -154,4 +159,4 @@ ORDER BY LangSortOrder ASC;
 DROP TABLE [QlikLangRAW],[QlikLangTemp];
 
 //Cleanup unnecessary variables
-LET vQlikLangConnectionName = null(); LET vQlikLangFilePrefix = null(); LET vQlikLangFileExtension = null(); LET vQlikLangFileDelimiter = null(); LET vQlikLangFileEncoding = null(); LET vQlikLangDefaultIndicator = null();
+LET vQlikLangBCP47Delimiter = null(); LET vQlikLangDefaultIndicator = null();
