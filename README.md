@@ -4,7 +4,9 @@ A Qlik Sense sampler application demonstrating multiple techniques to support yo
 **NOTE**: This sampler application requires the Qlik Sense Sept/2017 release. The Technical Preview is currently available for existing partners and customers here: [Qlik Communities: Qlik Sense September 2017 Technical Preview](https://community.qlik.com/blogs/technicalbulletin/2017/08/22/qlik-sense-september-2017-technical-preview-is-now-available)
 
 ## Description
-Description coming soon.
+This Sampler application demonstrates how to support multilingual requirements at the data, UI, Visualization, Developer, and User levels. Here is a short recording showing the results.
+
+![Multilingual Video](https://github.com/newmans99/Qlik-Multilingual-Sampler/git_resources/language_switch.mp4)
 
 ## Implementation
 To implement this sampler, please follow the steps outlined on the [Implementation Instructions](https://github.com/newmans99/Qlik-Multilingual-Sampler/wiki/Full-Implementation) Wiki page. 
