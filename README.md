@@ -9,7 +9,7 @@ Description coming soon.
 ### <a name="simple"></a>Basic Implementation - Ability to explore the application
 These steps will get you started quickly to explore the Multilingual Sampler application. After implementing the basic steps, you may want to consider implementing the complete version so that you can update/modify the strings and/or use the test users for testing user language preference settings.
 
-These steps will get you started quickly to explore the Multilingual Sampler application. After implementing this, you may want to consider implementing the [Advanced Installation](./wiki/Full-Implementation) so that you can update/modify the strings and/or use the test users for testing user language preference settings.
+These steps will get you started quickly to explore the Multilingual Sampler application. After implementing this, you may want to consider implementing the [Advanced Installation](/wiki/Full-Implementation) so that you can update/modify the strings and/or use the test users for testing user language preference settings.
 
 #### Requirements
 * Qlik Sense Server (or Desktop) Sept/2017 Release or higher.
