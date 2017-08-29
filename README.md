@@ -6,7 +6,7 @@ A Qlik Sense sampler application demonstrating multiple techniques to support yo
 ## Description
 This Sampler application demonstrates how to support multilingual requirements at the data, UI, Visualization, Developer, and User levels. Here is a short recording showing the results.
 
-<iframe width="560" height="315" src="https://github.com/newmans99/Qlik-Multilingual-Sampler/git_resources/language_switch.mp4"></iframe>
+<iframe width="560" height="315" src="https://youtu.be/VXS3hwdx05Q"></iframe>
 
 ## Implementation
 To implement this sampler, please follow the steps outlined on the [Implementation Instructions](https://github.com/newmans99/Qlik-Multilingual-Sampler/wiki/Full-Implementation) Wiki page. 
