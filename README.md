@@ -9,7 +9,7 @@ Description coming soon.
 ### <a name="simple"></a>Basic Implementation - Ability to explore the application
 These steps will get you started quickly to explore the Multilingual Sampler application. After implementing the basic steps, you may want to consider implementing the complete version so that you can update/modify the strings and/or use the test users for testing user language preference settings.
 
-These steps will get you started quickly to explore the Multilingual Sampler application. After implementing this, you may want to consider implementing the [Advanced Installation](./wiki/Full-Implementation#advanced-installation) so that you can update/modify the strings and/or use the test users for testing user language preference settings.
+These steps will get you started quickly to explore the Multilingual Sampler application. After implementing this, you may want to consider implementing the [Advanced Installation](./wiki/Full-Implementation) so that you can update/modify the strings and/or use the test users for testing user language preference settings.
 
 #### Requirements
 * Qlik Sense Server (or Desktop) Sept/2017 Release or higher.
@@ -35,14 +35,14 @@ After importing the applications and widgets...
 2. From the Application Overview: Open the **"Introduction"** Story to explore and learn about the application.
 
 ### Next Steps
-After exploring the Introduction Story, it is recommended that you complete the [Advanced Installation](./wiki/Full-Implementation#advanced-installation), which includes support for string updating and user language preference testing. 
+After exploring the Introduction Story, it is recommended that you complete the [Advanced Installation](./wiki/Full-Implementation), which includes support for string updating and user language preference testing. 
 
 ### Contributing/Enhancements
-There are a number of enhancements that can be made to this Sampler application, please feel free to fork this project and submit a pull request for any enhancements to this project. For a list of currently requested enhancements, please see the [Issue List](https://github.com/newmans99/Qlik-Multilingual-Sampler/issues).
+There are a number of enhancements that can be made to this Sampler application, please feel free to fork this project and submit a pull request for any enhancements to this project. For a list of currently requested enhancements, please see the [Issue List](./issues).
 
 Also, we are looking to get this Sampler translated to as many languages as possible. If you can translate the strings to any other language, please consider contributing to this project by following the instructions for [Adding More Languages to this Sampler](https://github.com/newmans99/Qlik-Multilingual-Sampler/wiki/How-to-add-more-languages-to-this-Sampler).
 
 ### Troubleshooting
-Common problems and resolutions that others have encountered. If you do not see your problem, please raise an [Issue](https://github.com/newmans99/Qlik-Multilingual-Sampler/issues).
+Common problems and resolutions that others have encountered. If you do not see your problem, please raise an [Issue](./issues).
 
 * None known at this time.
