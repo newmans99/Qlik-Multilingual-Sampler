@@ -25,8 +25,10 @@ These steps will get you started quickly to explore the Multilingual Sampler app
 2. From QMC: Extensions -> Import - "Your_Unzip_Path\app\LanguageHelperWidgets.zip"    
 
 **Method 2: Qlik Sense Desktop -**
-NOTE: You will not be able to implement the user language preferences testing steps using Qlik Sense Desktop.
-1. (Coming soon)
+<br>NOTE: You will not be able to implement the user language preferences testing steps using Qlik Sense Desktop.
+1. Copy "Your_Unzip_Path\app\Multilingual & Multi Tenant-Department Sampler.qvf" to "<user>\Documents\Qlik\Sense\Apps"
+2. Unzip "Your_Unzip_Path\app\LanguageHelperWidgets.zip" to "<user>\Documents\Qlik\Sense\Extensions"
+3. Restart Qlik Sense Desktop (if necessary).
 
 After importing the applications and widgets...
 1. Open the **"Multilingual & Multi Tenant-Department Sampler"** application from "Hub -> My Work".
