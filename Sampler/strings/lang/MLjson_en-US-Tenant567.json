@@ -2,14 +2,14 @@
 	"@metadata": {
 		"authors": [
 			"Steve Newman",
-			"John Trigg"	
+			"John Trigg"
 			],
 		"last-updated": "2017-08-14",
 		"locale": "en"
 	},
-	"Company":	"Client",
-	"Extended Price":	"Extended Amount",
-	"Product":	"Service",
-	"Unit Price":	"Unit Amount",
+	"Company":"Client",
+	"Extended Price":"Extended Amount",
+	"Product":"Service",
+	"Unit Price":"Unit Amount",
 	"themeRGB":"RGB(180,118,166)"
 }

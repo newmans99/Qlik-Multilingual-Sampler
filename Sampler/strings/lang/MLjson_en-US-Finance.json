@@ -2,10 +2,10 @@
 	"@metadata": {
 		"authors": [
 			"Steve Newman",
-			"John Trigg"	
+			"John Trigg"
 			],
-		"last-updated": "2017-08-14",
-		"locale": "en"
+		"last-updated":"2017-08-14",
+		"locale":"en"
 	},
-	"Extended Price":	"Booked Amount"
+	"Extended Price":"Booked Amount"
 }

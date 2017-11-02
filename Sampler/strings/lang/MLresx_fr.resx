@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,35 +26,35 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -116,6 +116,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+
+  <data name="mlFormatDate" xml:space="preserve">
+    <value>DD/MM/YYYY</value>
+  </data>
+  <data name="mlFormatTime" xml:space="preserve">
+    <value>hh:mm:ss</value>
+  </data>
+  <data name="mlFormatTimestamp" xml:space="preserve">
+    <value>DD/MM/YYYY hh:mm:ss</value>
+  </data>
+  <data name="mlFormatInterval" xml:space="preserve">
+    <value>D hh:mm</value>
+  </data>
+  <data name="mlFormatNum" xml:space="preserve">
+    <value>#.##0,dec</value>
+  </data>
+  <data name="mlFormatNumDefaultDecimals" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="mlFormatNumDecimal" xml:space="preserve">
+    <value>,</value>
+  </data>
+  <data name="mlFormatNumThousand" xml:space="preserve">
+    <value>.</value>
+  </data>
+  <data name="mlFormatMoney" xml:space="preserve">
+    <value>#.##0,dec</value>
+  </data>
+  <data name="mlFormatMoneyCurrency" xml:space="preserve">
+    <value>cur#.##0,dec</value>
+  </data>
+  <data name="mlFormatMoneyDefaultCurrency" xml:space="preserve">
+    <value>€</value>
+  </data>
+  <data name="mlFormatMoneyDefaultDecimals" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="mlFormatMoneyDecimal" xml:space="preserve">
+    <value>,</value>
+  </data>
+  <data name="mlFormatMoneyThousand" xml:space="preserve">
+    <value>.</value>
+  </data>
   <data name="Company" xml:space="preserve">
     <value>Compagnie</value>
   </data>
@@ -157,5 +200,59 @@
   </data>
   <data name="themeRGB" xml:space="preserve">
     <value>RGB(0, 35, 149)</value>
+  </data>
+  <data name="Order Analysis" xml:space="preserve">
+    <value>Analyse des ventes</value>
+  </data>
+  <data name="Application Info" xml:space="preserve">
+    <value>Info Application</value>
+  </data>
+  <data name="DEVELOPER" xml:space="preserve">
+    <value>DEVELOPPEUR</value>
+  </data>
+  <data name="Data Explorer" xml:space="preserve">
+    <value>Exploration de Données</value>
+  </data>
+  <data name="Language String Explorer" xml:space="preserve">
+    <value>Langue du String Explorer</value>
+  </data>
+  <data name="Language Section Access" xml:space="preserve">
+    <value>Langue du Section Access</value>
+  </data>
+  <data name="Language Format Explorer" xml:space="preserve">
+    <value>Format de la langue</value>
+  </data>
+  <data name="Formatted Data" xml:space="preserve">
+    <value>Donnée au format</value>
+  </data>
+  <data name="Raw Data" xml:space="preserve">
+    <value>Donnée brute</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Age</value>
+  </data>
+  <data name="Local Currency Format" xml:space="preserve">
+    <value>Format de la monnaie locale</value>
+  </data>
+  <data name="Language Order" xml:space="preserve">
+    <value>Ordre des langues</value>
+  </data>
+  <data name="Section Access Table" xml:space="preserve">
+    <value>Table du Section Access </value>
+  </data>
+  <data name="LanguageFooter" xml:space="preserve">
+    <value>Cette case peut être retiree pour un contenu plus analytique. Les préférences utilisateurs peuvent être spécifiées en utilisant les groupes de sécurité</value>
+  </data>
+  <data name="ReloadSubtitle" xml:space="preserve">
+    <value>Après avoir rafraîchi les données sources avec les nouvelles chaînes de caractères, recharger l’application pour les rafraîchir</value>
+  </data>
+  <data name="TableColTitle" xml:space="preserve">
+    <value>Méthode Colonne: les colonnes sont modifiées en fonction des préférences de langue</value>
+  </data>
+  <data name="TableRowTitle" xml:space="preserve">
+    <value>Méthode à la Ligne: les lignes sont filtrées/diminuées en fonction des préférences de langue</value>
+  </data>
+  <data name="TableCRFooter" xml:space="preserve">
+    <value>INFO: Cette table ne sera pas modifiée par les sélections ci-dessus. A but de démonstration uniquement</value>
   </data>
 </root>

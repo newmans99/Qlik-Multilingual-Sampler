@@ -20,10 +20,8 @@ FOR vQlikLangIter = 1 to 3
   LOAD
     'USER'								as ACCESS,
     '*'										as USERID,
-
     trim([language] & if(len([REGION]) > 1,'-'&[REGION],'') & if(len([Variant]) > 1,'-'&[Variant],''))
     										  as GROUP,
-
     trim([language] & if($(vQlikLangIter) > 1,'-'&[REGION],'') & if($(vQlikLangIter) > 2,'-'&[Variant],''))
     										  as LANGUAGE_REDUCTION,
     ''										as REDUCTION,
@@ -36,8 +34,7 @@ NEXT vQlikLangIter
 //Load default language for all groups, this ensures that the default language strings are available to all users.
 LOAD
     'USER'								  as ACCESS,
-    '*'										 as USERID,
-
+    '*'										  as USERID,
     if(len(language)>0,[language]& if(len(REGION)>0,'-'&[REGION]& if(len(Variant)>0,'-'&[Variant],''),''),'')
     										    as GROUP,
 	'$(vQlikLangDefaultLang)'	as LANGUAGE_REDUCTION,
@@ -49,25 +46,40 @@ LOAD
 //Apply Section Access:
 //NOTE: For testing purposes, uncomment the Star/[Section]: lines and comment out the "Section Access;" and "Section Application;" lines
 
-Star is *;
-[SECTION]:
+IF $(vQlikLangApplySecurity) THEN
+  Section Access;
 
-//Section Access;
-
- NoConcatenate
- LOAD DISTINCT
- 	upper(ACCESS) as ACCESS,
+  NoConcatenate
+  LOAD DISTINCT
+    upper(ACCESS) as ACCESS,
     upper(USERID) as USERID,
     upper(GROUP) as GROUP,
     upper(LANGUAGE_REDUCTION) as LANGUAGE_REDUCTION,
     upper(REDUCTION) as REDUCTION,
     upper(OMIT) as OMIT
- RESIDENT [CustomSectionAccess]
- ;
+  RESIDENT [CustomSectionAccess]
+  ;
 
-//Section Application;
+  Section Application;
+
+ELSE
+  Star is *;
+
+  [SECTION]:
+  NoConcatenate
+  LOAD DISTINCT
+  	upper(ACCESS) as ACCESS,
+    upper(USERID) as USERID,
+    upper(GROUP) as GROUP,
+    upper(LANGUAGE_REDUCTION) as LANGUAGE_REDUCTION,
+    upper(REDUCTION) as REDUCTION,
+    upper(OMIT) as OMIT
+  RESIDENT [CustomSectionAccess]
+  ;
+
+END IF
 
 DROP TABLE [CustomSectionAccess];
 
 //Cleanup unnecessary variables
-LET vQlikLangIter = null(); LET vQlikLangField = null();
+LET vQlikLangIter = null(); LET vQlikLangField = null(); LET vQlikLangApplySecurity = null();

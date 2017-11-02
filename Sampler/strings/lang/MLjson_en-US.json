@@ -2,11 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Steve Newman",
-			"John Trigg"	
+			"John Trigg"
 			],
 		"last-updated": "2017-08-14",
 		"locale": "en"
 	},
-	"Order Number":	"Order No",
-	"Quantity":	"Qty"
+	"Order Number":"Order No",
+	"Quantity":"Qty"
 }
