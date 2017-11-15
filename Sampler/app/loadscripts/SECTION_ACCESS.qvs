@@ -43,9 +43,7 @@ LOAD
   RESIDENT [QlikLanguage];
 
 
-//Apply Section Access:
-//NOTE: For testing purposes, uncomment the Star/[Section]: lines and comment out the "Section Access;" and "Section Application;" lines
-
+//Apply Section Access or not based on the demo variable: vQlikLangApplySecurity
 IF $(vQlikLangApplySecurity) THEN
   Section Access;
 
