@@ -1,0 +1,38 @@
+//NOTE: This script will typically be changed based on the type of UI String storage you leverage.
+//      Currently, this example supports Microsoft Resource files (resx), json named pairs (js,json), or a database table
+//      Choose one, and only one, of the Examples below and comment/remove the others.
+//
+//      The example below leverags the IETF BCP47 standard (ref: https://tools.ietf.org/html/bcp47)
+//      The format of the resource file or the BCP47 column (db) should be: language(-region(-variant1)) - where variant1 can be tenant/dept string specifications.
+//      As specified in BCP47, this allows for "fallback" from variant1 to region, and finally to language.
+
+//Extra ; required for Must_Include to work in Technical Preview, should be able to remove in production release.
+;
+
+//Use the Qlik Language "Format" variable functions below to convert the display format of a given field/expression.
+//   SYNTAX:		=$(vQlikLangFormatDate('ColumnName'))
+//   Where ColumnName is the column (or a valid expression) that that you want formatted
+//
+//   RESULT:		A single text string in the user's preferred language.
+//
+//   EXAMPLE USE: 	=$(vQlikLangFormatDate('Order Date'))
+//
+LET vQlikLangFormatDate = 'Date($' & '(=trim($' & '1)),'&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatDate}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')';
+LET vQlikLangFormatTime = 'Time($' & '(=trim($' & '1)),'&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatTime}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')';
+LET vQlikLangFormatTimestamp = 'Timestamp($' & '(=trim($' & '1)),'&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatTimestamp}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')';
+LET vQlikLangFormatInterval = 'Interval($' & '(=trim($' & '1)),'&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatInterval}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')';
+
+//
+//   NOTE: vQlikLangFormatNum and vQlikLangFormatMoney have an optional parameter for the number of decimals to display.
+//         If missing or none numeric, the mlFormatNumDefaultDecimals or mlFormatMoneyDefaultDecimals value will be used.
+//         EXAMPLE: =$(vQlikLangFormatNum('Avg([Gas Price])',4))  - displays with 4 decimal places.
+//         EXAMPLE: =$(vQlikLangFormatMoney('Sum(Qty*Price)',3))  - displays with 3 decimal places.
+//
+//   NOTE: vQlikLangFormatMoneyCurrency has two optional parameters for the number of decimals and the currency symbol.
+//         If the first is missing or non numberic, the mlFormatMoneyDefaultDecimals value will be used.
+//         If the second is missing or non text, the mlFormatMoneyDefaultCurrency value will be used.
+//         EXAMPLE: =$(vQlikLangFormatMoney('Sum(Qty*Price)',3,'€'))  - displays with 3 decimal places and uses the euro currency symbol.
+//
+LET vQlikLangFormatNum = 'Num($' & '(=trim($' & '1)),Replace('&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatNum}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&','&chr(39)&'dec'&chr(39)&',Repeat('&chr(39)&'0'&chr(39)&',if(isnum($' & '2), $' & '2,num('&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatNumDefaultDecimals}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')))),'&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatNumDecimal}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&','&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatNumThousand}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')';
+LET vQlikLangFormatMoney = 'Money($' & '(=trim($' & '1)),Replace('&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatMoney}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&','&chr(39)&'dec'&chr(39)&',Repeat('&chr(39)&'0'&chr(39)&',if(isnum($' & '2), $' & '2,num('&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatMoneyDefaultDecimals}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')))),'&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatMoneyDecimal}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&','&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatMoneyThousand}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')';
+LET vQlikLangFormatMoneyCurrency = 'Money($' & '(=trim($' & '1)),Replace(Replace('&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatMoneyCurrency}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&','&chr(39)&'dec'&chr(39)&',Repeat('&chr(39)&'0'&chr(39)&',if(isnum($' & '2),$' & '2,num('&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatMoneyDefaultDecimals}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')))),'&chr(39)&'cur'&chr(39)&',if(istext($' & '3),$' & '3,'&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatMoneyDefaultCurrency}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')),'&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatMoneyDecimal}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&','&chr(39)&'$'&'(=FirstSortedValue({<[LangId]={mlFormatMoneyThousand}>}DISTINCT [LangValue],[LangSortOrder]))'&chr(39)&')';

@@ -52,9 +52,12 @@ IF upper(left('$(vQlikLangFileExtension)',2)) = 'JS' THEN
     [QlikLangRAW]:
     NoConcatenate
     LOAD
-      mid(trim(subfield(JSON_Row,':',1)),1,len(trim(subfield(JSON_Row,':',1)))-1)	as LangId,
-      mid(trim(subfield(JSON_Row,':',2)),2)                     					as LangValue,
-      BCP47																			as BCP47
+      mid(trim(subfield(JSON_Row,':',1)),1,len(trim(subfield(JSON_Row,':',1)))-1) as LangId,
+//NOTE: Commas and Colons in the json data set will mix up this parser, so replace commas (,) with _COMMA_,
+//      and colons (:) with _COLON_ and they will be replaced after the parsing is done.
+//      Alternatively, you can use the Qlik Web Connector, which has a more powerful parser.
+      Replace(Replace(mid(trim(subfield(JSON_Row,':',2)),2),'_COMMA_',','),'_COLON_',':') as LangValue,
+      BCP47																			                                  as BCP47
     RESIDENT [QlikLangJSONRAW];
 
     DROP TABLE [QlikLangJSONRAW];
@@ -140,7 +143,7 @@ LOAD
     ;
 LOAD
     LangId,
-    Text(LangValue)													as LangValue,
+    Text(LangValue)													                         as LangValue,
     lower(subfield(BCP47,'$(vQlikLangBCP47Delimiter)',1))            as language,
     upper(subfield(BCP47,'$(vQlikLangBCP47Delimiter)',2))            as REGION,
     capitalize(subfield(BCP47,'$(vQlikLangBCP47Delimiter)',3))       as Variant,
